@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
+import com.cryfirock.msvc.users.msvc_users.validations.annotations.IsRequired;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,7 +58,8 @@ public class User {
     private String username;
 
     @Column(name = "password_hash")
-    @NotBlank(message = "{NotBlank.user.password}")
+    // Custom annotation for validating password
+    @IsRequired
     private String password;
 
     @NotNull(message = "{NotNull.user.dob}")
