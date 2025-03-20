@@ -18,6 +18,6 @@ public interface UserService {
     Optional<User> findById(Long id);
 
     // Removal methods
-    Optional<User> deleteById(User user);
+    Optional<User> deleteUser(User user);
 
 }

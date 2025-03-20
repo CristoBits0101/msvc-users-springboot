@@ -73,7 +73,7 @@ public class UserController {
         user.setId(id);
 
         // Delete user if found, else return 404 Not Found
-        Optional<User> userOptional = userService.deleteById(user);
+        Optional<User> userOptional = userService.deleteUser(user);
 
         // Return 200 OK if found, else throws an exception (possible 500)
         if (userOptional.isPresent())

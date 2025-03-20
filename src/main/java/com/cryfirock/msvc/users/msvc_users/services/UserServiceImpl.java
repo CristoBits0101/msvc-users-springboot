@@ -72,9 +72,9 @@ public class UserServiceImpl implements UserService {
             userToUpdate.setEmail(user.getEmail());
             userToUpdate.setPhoneNumber(user.getPhoneNumber());
             userToUpdate.setUsername(user.getUsername());
-            userToUpdate.setPassword(user.getPassword());
+            userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
             userToUpdate.setDob(user.getDob());
-            userToUpdate.setLastName(user.getAddress());
+            userToUpdate.setAddress(user.getAddress());
             userToUpdate.setAccountStatus(user.getAccountStatus());
 
             // Update roles if user is not admin
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
     // Removal methods
     @Override
     @Transactional
-    public Optional<User> deleteById(User user) {
+    public Optional<User> deleteUser(User user) {
         Optional<User> userToDelete = userRepository.findById(user.getId());
         userToDelete.ifPresent(userRepository::delete);
         return userToDelete;
