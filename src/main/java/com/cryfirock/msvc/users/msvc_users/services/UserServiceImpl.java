@@ -77,6 +77,21 @@ public class UserServiceImpl implements UserService {
             userToUpdate.setLastName(user.getAddress());
             userToUpdate.setAccountStatus(user.getAccountStatus());
 
+            // Update roles if user is not admin
+            if (!user.isAdmin()) {
+                // We added the list that modifies the roles
+                List<Role> roles = new ArrayList<>();
+
+                // Always assign the user role if it exists
+                Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
+
+                // Add user role to roles list
+                optionalRoleUser.ifPresent(roles::add);
+
+                // Set user roles
+                userToUpdate.setRoles(roles);
+            }
+
             // Update user in database
             return Optional.of(userRepository.save(userToUpdate));
         }
