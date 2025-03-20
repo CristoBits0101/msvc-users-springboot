@@ -1,4 +1,4 @@
-package com.cryfirock.msvc.users.msvc_users.validations.components;
+package com.cryfirock.msvc.users.msvc_users.validations.validators;
 
 import java.time.LocalDate;
 

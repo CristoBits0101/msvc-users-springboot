@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cryfirock.msvc.users.msvc_users.entities.User;
 import com.cryfirock.msvc.users.msvc_users.services.UserService;
-import com.cryfirock.msvc.users.msvc_users.validations.components.UserValidation;
+import com.cryfirock.msvc.users.msvc_users.validations.validators.UserValidation;
 
 import jakarta.validation.Valid;
 
