@@ -33,41 +33,42 @@ public class User {
     private Long id;
 
     @Column(name = "first_name")
-    @NotEmpty
-    @Size(min = 1, max = 50)
+    @NotEmpty(message = "{NotEmpty.user.firstName}")
+    @Size(min = 1, max = 50, message = "{Size.user.firstName}")
     private String firstName;
 
     @Column(name = "last_name")
-    @NotEmpty
-    @Size(min = 1, max = 50)
+    @NotEmpty(message = "{NotEmpty.user.lastName}")
+    @Size(min = 1, max = 50, message = "{Size.user.lastName}")
     private String lastName;
 
     @Column(unique = true)
-    @NotBlank
-    @Size(min = 1, max = 100)
+    @NotBlank(message = "{NotBlank.user.email}")
+    @Size(min = 1, max = 100, message = "{Size.user.email}")
     private String email;
 
     @Column(name = "phone_number", unique = true)
-    @NotEmpty
-    @Size(min = 9, max = 20)
+    @NotEmpty(message = "{NotEmpty.user.phoneNumber}")
+    @Size(min = 9, max = 20, message = "{Size.user.phoneNumber}")
     private String phoneNumber;
 
     @Column(unique = true)
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 50, message = "{Size.user.username}")
     private String username;
 
     @Column(name = "password_hash")
-    @NotBlank
+    @NotBlank(message = "{NotBlank.user.password}")
     private String password;
 
-    @NotNull
+    @NotNull(message = "{NotNull.user.dob}")
     private LocalDate dob;
 
-    @NotBlank
+    @NotBlank(message = "{NotBlank.user.address}")
     private String address;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_status", nullable = false)
+    @NotNull(message = "{NotNull.user.accountStatus}")
     private AccountStatus accountStatus;
 
     // One-way relationship: Roles can only be obtained from users
