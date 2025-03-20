@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
-import com.cryfirock.msvc.users.msvc_users.validations.annotations.IsRequired;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,8 +57,7 @@ public class User {
     private String username;
 
     @Column(name = "password_hash")
-    // Custom annotation for validating password
-    @IsRequired
+    @NotBlank(message = "{NotBlank.user.password}")
     private String password;
 
     @NotNull(message = "{NotNull.user.dob}")
@@ -78,10 +76,13 @@ public class User {
     @JoinTable(
             // Link the intermediate table of ManyToMany relationships
             name = "users_roles",
+
             // Column that stores the foreign keys of the users table
             joinColumns = @JoinColumn(name = "user_id"),
+
             // Column that stores the foreign keys of the roles table
             inverseJoinColumns = @JoinColumn(name = "role_id"),
+            
             // Unique constraint to prevent duplicate entries
             uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "role_id" }) })
     private List<Role> roles;

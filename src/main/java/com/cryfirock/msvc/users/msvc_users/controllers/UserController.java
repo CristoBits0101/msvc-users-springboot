@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cryfirock.msvc.users.msvc_users.entities.User;
 import com.cryfirock.msvc.users.msvc_users.services.UserService;
-import com.cryfirock.msvc.users.msvc_users.validations.validators.UserValidation;
 
 import jakarta.validation.Valid;
 
@@ -32,13 +31,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserValidation userValidation;
-
     // Writing methods
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
-        userValidation.validate(user, result);
         if (result.hasErrors())
             return validation(result);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
@@ -46,7 +41,6 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User user, BindingResult result) {
-        userValidation.validate(user, result);
         if (result.hasErrors())
             return validation(result);
         Optional<User> userOptional = userService.findById(id);
@@ -77,11 +71,14 @@ public class UserController {
         // Create user object with id
         User user = new User();
         user.setId(id);
+
         // Delete user if found, else return 404 Not Found
         Optional<User> userOptional = userService.deleteById(user);
+
         // Return 200 OK if found, else throws an exception (possible 500)
         if (userOptional.isPresent())
             return ResponseEntity.ok(userOptional.orElseThrow());
+
         // Return 404 Not Found if user does not exist
         return ResponseEntity.notFound().build();
     }
