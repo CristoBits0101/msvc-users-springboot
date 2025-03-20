@@ -86,7 +86,7 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    // Validation method
+    // BindingResult returns annotation messages, not exceptions.
     private ResponseEntity<?> validation(BindingResult result) {
         // Create a new user object to return errors
         Map<String, String> errors = new HashMap<>();
