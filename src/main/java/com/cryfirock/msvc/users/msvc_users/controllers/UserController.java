@@ -59,10 +59,13 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        // Find user by id
         Optional<User> userOptional = userService.findById(id);
+
         if (userOptional.isPresent())
             // Return 200 OK if found, else throws an exception (possible 500)
             return ResponseEntity.ok(userOptional.orElseThrow());
+
         // Return 404 Not Found if user does not exist
         return ResponseEntity.notFound().build();
     }
