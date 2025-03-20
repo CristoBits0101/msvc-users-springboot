@@ -54,6 +54,37 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    @Transactional
+    public Optional<User> update(Long id, User user) {
+        // Find user by id
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        // Check if user already exists
+        if (optionalUser.isPresent()) {
+
+            // Get user to update
+            User userToUpdate = optionalUser.get();
+
+            // Update user fields
+            userToUpdate.setFirstName(user.getFirstName());
+            userToUpdate.setLastName(user.getLastName());
+            userToUpdate.setEmail(user.getEmail());
+            userToUpdate.setPhoneNumber(user.getPhoneNumber());
+            userToUpdate.setUsername(user.getUsername());
+            userToUpdate.setPassword(user.getPassword());
+            userToUpdate.setDob(user.getDob());
+            userToUpdate.setLastName(user.getAddress());
+            userToUpdate.setAccountStatus(user.getAccountStatus());
+
+            // Update user in database
+            return Optional.of(userRepository.save(userToUpdate));
+        }
+
+        // Return empty optional if user does not exist
+        return optionalUser;
+    }
+
     /**
      * Reading methods
      */
