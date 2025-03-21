@@ -2,6 +2,7 @@ package com.cryfirock.msvc.users.msvc_users.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,7 +36,9 @@ public class SpringSecurityConfig {
                 return http
                                 .authorizeHttpRequests(authz -> authz
                                                 // The users route does not require authentication
-                                                .requestMatchers("/api/users", "/api/users/**")
+                                                .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/**")
+                                                .permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/api/users", "/api/users/**")
                                                 .permitAll()
                                                 // Routes other than /users require authentication
                                                 .anyRequest()
