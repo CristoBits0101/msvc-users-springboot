@@ -1,7 +1,6 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
@@ -18,7 +17,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
@@ -33,7 +31,9 @@ import jakarta.validation.constraints.Size;
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User {
 
-    // Attributes
+    /**
+     * Attributes
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -100,17 +100,15 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    // Constructors
+    /**
+     * Constructors
+     */
     public User() {
     }
 
-    // Getters and setters
+    /**
+     * Getters and setters
+     */
     public Long getId() {
         return id;
     }
@@ -199,22 +197,6 @@ public class User {
         this.roles = roles;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     // When it is boolean, use is and not get
     public boolean isAdmin() {
         return admin;
@@ -225,19 +207,9 @@ public class User {
     }
 
     // Methods
+    @PrePersist
     public void prePersistUser() {
         this.accountStatus = AccountStatus.ACTIVE;
-    }
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.accountStatus = AccountStatus.ACTIVE;
-        this.updatedAt = LocalDateTime.now();
     }
 
 }
