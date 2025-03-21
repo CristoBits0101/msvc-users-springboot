@@ -209,9 +209,12 @@ public class User {
     }
 
     // Methods
+    public void prePersistUser() {
+        this.accountStatus = AccountStatus.ACTIVE;
+    }
+
     @PrePersist
     public void prePersist() {
-        this.accountStatus = AccountStatus.ACTIVE;
         this.createdAt = LocalDateTime.now();
     }
 
