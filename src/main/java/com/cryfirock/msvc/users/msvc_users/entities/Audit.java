@@ -8,15 +8,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
 @AttributeOverrides({
-        // Link attributes to table fields in the entity you are embedding
         @AttributeOverride(name = "createdAt", column = @Column(name = "created_at")),
         @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_at"))
 })
 @Data
 @Embeddable
+@NoArgsConstructor
 public class Audit {
 
     /**
