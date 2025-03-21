@@ -212,7 +212,9 @@ public class User {
         this.admin = admin;
     }
 
-    // Methods
+    /**
+     * Methods
+     */
     @PrePersist
     public void prePersistUser() {
         this.accountStatus = AccountStatus.ACTIVE;
