@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,6 +59,7 @@ public class User {
 
     @Column(name = "password_hash")
     @NotBlank(message = "{NotBlank.user.password}")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotNull(message = "{NotNull.user.dob}")
