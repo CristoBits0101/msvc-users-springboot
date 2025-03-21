@@ -18,6 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
@@ -109,6 +110,7 @@ public class User {
      * Constructors
      */
     public User() {
+        this.audit = new Audit();
     }
 
     /**
@@ -211,11 +213,6 @@ public class User {
         this.admin = admin;
     }
 
-    // Methods
-    @PrePersist
-    public void prePersistUser() {
-        this.accountStatus = AccountStatus.ACTIVE;
-    }
 
     @Override
     public String toString() {
