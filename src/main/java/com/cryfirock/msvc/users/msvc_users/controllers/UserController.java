@@ -105,7 +105,7 @@ public class UserController {
 
         // Loop through the validation errors and add them to the errors map
         result.getFieldErrors().forEach(err -> {
-            errors.put(err.getField(), "The field " + err.getField() + " " + err.getDefaultMessage());
+            errors.put(err.getField(), err.getDefaultMessage());
         });
 
         // Return 400 Bad Request with errors always after validation
