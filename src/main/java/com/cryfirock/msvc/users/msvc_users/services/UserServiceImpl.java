@@ -13,7 +13,7 @@ import com.cryfirock.msvc.users.msvc_users.entities.User;
 import com.cryfirock.msvc.users.msvc_users.repositories.RoleRepository;
 import com.cryfirock.msvc.users.msvc_users.repositories.UserRepository;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -104,11 +104,13 @@ public class UserServiceImpl implements UserService {
      * Reading methods
      */
     @Override
+    @Transactional(readOnly = true)
     public List<User> findAll() {
         return (List<User>) userRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }

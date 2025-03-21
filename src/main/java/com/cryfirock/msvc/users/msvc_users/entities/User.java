@@ -1,6 +1,7 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
@@ -17,6 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
@@ -97,6 +99,12 @@ public class User {
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     // Constructors
     public User() {
@@ -204,6 +212,13 @@ public class User {
     @PrePersist
     public void prePersist() {
         this.accountStatus = AccountStatus.ACTIVE;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.accountStatus = AccountStatus.ACTIVE;
+        this.updatedAt = LocalDateTime.now();
     }
 
 }
