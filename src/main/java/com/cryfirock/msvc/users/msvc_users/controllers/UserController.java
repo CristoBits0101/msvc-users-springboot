@@ -34,6 +34,14 @@ public class UserController {
     // Writing methods
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
+        user.setAdmin(false);
+        if (result.hasErrors())
+            return validation(result);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+    }
+
+    @PostMapping("/superuser")
+    public ResponseEntity<?> createAdmin(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasErrors())
             return validation(result);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));

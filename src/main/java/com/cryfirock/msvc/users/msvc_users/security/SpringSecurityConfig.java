@@ -36,9 +36,9 @@ public class SpringSecurityConfig {
                 return http
                                 .authorizeHttpRequests(authz -> authz
                                                 // The users route does not require authentication
-                                                .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/**")
+                                                .requestMatchers(HttpMethod.GET, "/api/users")
                                                 .permitAll()
-                                                .requestMatchers(HttpMethod.POST, "/api/users", "/api/users/**")
+                                                .requestMatchers(HttpMethod.POST, "/api/users")
                                                 .permitAll()
                                                 // Routes other than /users require authentication
                                                 .anyRequest()
