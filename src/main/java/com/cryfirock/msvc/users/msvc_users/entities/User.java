@@ -70,7 +70,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_status", nullable = false)
-    @NotNull(message = "{NotNull.user.accountStatus}")
     private AccountStatus accountStatus;
 
     // One-way relationship: Roles can only be obtained from users
