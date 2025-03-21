@@ -1,7 +1,6 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
@@ -19,7 +18,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
@@ -82,12 +80,6 @@ public class User {
     @Column(name = "account_status", nullable = false)
     private AccountStatus accountStatus;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
     // One-way relationship: Roles can only be obtained from users
     @ManyToMany
     @JoinTable(
@@ -108,6 +100,10 @@ public class User {
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
+
+    // Embeddable class
+    @Embedded
+    private Audit audit;
 
     /**
      * Constructors
@@ -206,22 +202,6 @@ public class User {
         this.roles = roles;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     // When it is boolean, use is and not get
     public boolean isAdmin() {
         return admin;
@@ -237,14 +217,12 @@ public class User {
         this.accountStatus = AccountStatus.ACTIVE;
     }
 
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+                + ", phoneNumber=" + phoneNumber + ", username=" + username + ", password=" + password + ", dob=" + dob
+                + ", address=" + address + ", accountStatus=" + accountStatus + ", roles=" + roles + ", admin=" + admin
+                + ", createdAt=" + audit.getCreatedAt() + " updatedAt=" + audit.getUpdatedAt() + "]";
     }
 
 }
