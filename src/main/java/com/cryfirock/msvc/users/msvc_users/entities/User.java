@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
@@ -83,7 +84,7 @@ public class User {
 
             // Column that stores the foreign keys of the roles table
             inverseJoinColumns = @JoinColumn(name = "role_id"),
-            
+
             // Unique constraint to prevent duplicate entries
             uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "role_id" }) })
     private List<Role> roles;
@@ -192,6 +193,12 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    // Methods
+    @PrePersist
+    public void prePersist() {
+        this.accountStatus = AccountStatus.ACTIVE;
     }
 
 }
