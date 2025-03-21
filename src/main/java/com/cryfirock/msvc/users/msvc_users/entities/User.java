@@ -91,6 +91,7 @@ public class User {
 
     // It does not belong to the database
     @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
     // Constructors
