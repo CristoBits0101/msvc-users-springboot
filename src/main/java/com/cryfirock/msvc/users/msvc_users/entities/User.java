@@ -110,7 +110,7 @@ public class User {
      * Embeddable
      */
     @Embedded
-    private Audit audit = new Audit();
+    private Audit audit;
 
     /**
      * Methods
