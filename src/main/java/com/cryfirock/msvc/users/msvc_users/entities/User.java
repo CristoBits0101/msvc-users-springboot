@@ -20,9 +20,11 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -47,11 +49,13 @@ public class User {
     @Column(unique = true)
     @NotBlank(message = "{NotBlank.user.email}")
     @Size(min = 1, max = 100, message = "{Size.user.email}")
+    @Email(message = "{Email.user.email}")
     private String email;
 
     @Column(name = "phone_number", unique = true)
     @NotEmpty(message = "{NotEmpty.user.phoneNumber}")
     @Size(min = 9, max = 20, message = "{Size.user.phoneNumber}")
+    @Pattern(regexp = "^[+]?[0-9]{9,20}$", message = "{Pattern.user.phoneNumber}")
     private String phoneNumber;
 
     @Column(unique = true)
