@@ -34,9 +34,9 @@ public class UserController {
     // Writing methods
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
-        user.setAdmin(false);
         if (result.hasErrors())
             return validation(result);
+        user.setAdmin(false);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
     }
 
@@ -96,7 +96,7 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    // BindingResult returns annotation messages, not exceptions.
+    // BindingResult returns annotation messages, not exceptions
     private ResponseEntity<?> validation(BindingResult result) {
         // Create a new user object to return errors
         Map<String, String> errors = new HashMap<>();
