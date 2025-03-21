@@ -8,13 +8,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Embeddable
+@AllArgsConstructor
 @AttributeOverrides({
-        // Link attributes to table fields in the entity you are embedding
         @AttributeOverride(name = "createdAt", column = @Column(name = "created_at")),
         @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_at"))
 })
+@Data
+@Embeddable
+@NoArgsConstructor
 public class Audit {
 
     /**
@@ -25,25 +30,6 @@ public class Audit {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    /**
-     * Getters and Setters
-     */
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
     /**
      * Methods
