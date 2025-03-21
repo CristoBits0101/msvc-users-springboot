@@ -48,11 +48,13 @@ public class User {
     @Column(name = "first_name")
     @NotEmpty(message = "{NotEmpty.user.firstName}")
     @Size(min = 1, max = 50, message = "{Size.user.firstName}")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "{Pattern.user.firstName}")
     private String firstName;
 
     @Column(name = "last_name")
     @NotEmpty(message = "{NotEmpty.user.lastName}")
     @Size(min = 1, max = 50, message = "{Size.user.lastName}")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "{Pattern.user.lastName}")
     private String lastName;
 
     @Column(unique = true)
@@ -64,7 +66,7 @@ public class User {
     @Column(name = "phone_number", unique = true)
     @NotEmpty(message = "{NotEmpty.user.phoneNumber}")
     @Size(min = 9, max = 20, message = "{Size.user.phoneNumber}")
-    @Pattern(regexp = "^[+]?[0-9]{9,20}$", message = "{Pattern.user.phoneNumber}")
+    @Pattern(regexp = "^[0-9]{9,20}$", message = "{Pattern.user.phoneNumber}")
     private String phoneNumber;
 
     @Column(unique = true)
@@ -77,6 +79,7 @@ public class User {
     private String password;
 
     @NotNull(message = "{NotNull.user.dob}")
+    @Pattern(regexp = "^[0-9/-]+$", message = "{Pattern.user.dob}")
     private LocalDate dob;
 
     @NotBlank(message = "{NotBlank.user.address}")
