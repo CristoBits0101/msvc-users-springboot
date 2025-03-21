@@ -1,6 +1,7 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
