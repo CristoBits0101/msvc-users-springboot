@@ -89,7 +89,6 @@ public class User {
     private String password;
 
     @NotNull(message = "{NotNull.user.dob}")
-    @Pattern(regexp = "^[0-9/-]+$", message = "{Pattern.user.dob}")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
