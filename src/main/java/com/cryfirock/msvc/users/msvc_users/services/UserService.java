@@ -17,6 +17,10 @@ public interface UserService {
 
     Optional<User> findById(Long id);
 
+    boolean existsByEmail(String email);
+
+    boolean existsByPhoneNumber(String phoneNumber);
+
     boolean existsByUsername(String username);
 
     // Removal methods

@@ -1,6 +1,8 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
+import com.cryfirock.msvc.users.msvc_users.validations.ExistsByUsername;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -71,6 +73,7 @@ public class User {
 
     @Column(unique = true)
     @Size(min = 1, max = 50, message = "{Size.user.username}")
+    @ExistsByUsername
     private String username;
 
     @Column(name = "password_hash")
