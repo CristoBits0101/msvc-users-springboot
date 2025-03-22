@@ -16,6 +16,9 @@ public class ExistsByEmailValidator implements ConstraintValidator<ExistsByEmail
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
+        if (userService == null)
+            throw new IllegalStateException("UserService no ha sido inyectado correctamente.");
+
         return !userService.existsByEmail(email);
     }
 }
