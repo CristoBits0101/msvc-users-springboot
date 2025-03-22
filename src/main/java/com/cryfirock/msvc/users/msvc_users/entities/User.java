@@ -2,6 +2,7 @@ package com.cryfirock.msvc.users.msvc_users.entities;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
 import com.cryfirock.msvc.users.msvc_users.validations.ExistsByEmail;
+import com.cryfirock.msvc.users.msvc_users.validations.ExistsByPhoneNumber;
 import com.cryfirock.msvc.users.msvc_users.validations.ExistsByUsername;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -74,6 +75,7 @@ public class User {
     @NotEmpty(message = "{NotEmpty.user.phoneNumber}")
     @Size(min = 9, max = 20, message = "{Size.user.phoneNumber}")
     @Pattern(regexp = "^[0-9]{9,20}$", message = "{Pattern.user.phoneNumber}")
+    @ExistsByPhoneNumber
     private String phoneNumber;
 
     @Column(unique = true)
@@ -87,6 +89,8 @@ public class User {
     private String password;
 
     @NotNull(message = "{NotNull.user.dob}")
+    @Pattern(regexp = "^[0-9/-]+$", message = "{Pattern.user.dob}")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
     @NotBlank(message = "{NotBlank.user.address}")
