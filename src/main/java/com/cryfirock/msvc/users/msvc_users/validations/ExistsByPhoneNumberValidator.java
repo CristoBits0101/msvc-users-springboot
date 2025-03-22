@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExistsByEmailValidator implements ConstraintValidator<ExistsByEmail, String> {
+public class ExistsByPhoneNumberValidator implements ConstraintValidator<ExistsByPhoneNumber, String> {
 
     @Autowired
     private UserService userService;
 
     @Override
-    public boolean isValid(String email, ConstraintValidatorContext context) {
-        return userService.existsByEmail(email);
+    public boolean isValid(String phoneNumber, ConstraintValidatorContext context) {
+        return userService.existsByPhoneNumber(phoneNumber);
     }
+
 }
