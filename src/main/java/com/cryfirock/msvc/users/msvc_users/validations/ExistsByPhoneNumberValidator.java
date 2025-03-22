@@ -16,7 +16,7 @@ public class ExistsByPhoneNumberValidator implements ConstraintValidator<ExistsB
 
     @Override
     public boolean isValid(String phoneNumber, ConstraintValidatorContext context) {
-        return userService.existsByPhoneNumber(phoneNumber);
+        return !userService.existsByPhoneNumber(phoneNumber);
     }
 
 }
