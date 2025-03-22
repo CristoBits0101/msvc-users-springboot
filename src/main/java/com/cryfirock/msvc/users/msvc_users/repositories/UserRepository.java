@@ -6,4 +6,6 @@ import com.cryfirock.msvc.users.msvc_users.entities.User;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
+    boolean existsByUsername(String username);
+
 }

@@ -115,6 +115,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
     // Removal methods
     @Override
     @Transactional
