@@ -1,6 +1,7 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
+import com.cryfirock.msvc.users.msvc_users.validations.ExistsByEmail;
 import com.cryfirock.msvc.users.msvc_users.validations.ExistsByUsername;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -21,6 +22,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -63,6 +65,7 @@ public class User {
     @NotBlank(message = "{NotBlank.user.email}")
     @Size(min = 1, max = 100, message = "{Size.user.email}")
     @Email(message = "{Email.user.email}")
+    @ExistsByEmail
     private String email;
 
     @Column(name = "phone_number", unique = true)

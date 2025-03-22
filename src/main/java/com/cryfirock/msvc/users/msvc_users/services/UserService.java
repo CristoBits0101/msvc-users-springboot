@@ -1,9 +1,9 @@
 package com.cryfirock.msvc.users.msvc_users.services;
 
+import com.cryfirock.msvc.users.msvc_users.entities.User;
+
 import java.util.List;
 import java.util.Optional;
-
-import com.cryfirock.msvc.users.msvc_users.entities.User;
 
 public interface UserService {
 

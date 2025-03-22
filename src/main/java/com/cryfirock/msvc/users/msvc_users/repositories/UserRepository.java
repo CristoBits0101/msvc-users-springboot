@@ -1,8 +1,8 @@
 package com.cryfirock.msvc.users.msvc_users.repositories;
 
-import org.springframework.data.repository.CrudRepository;
-
 import com.cryfirock.msvc.users.msvc_users.entities.User;
+
+import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
