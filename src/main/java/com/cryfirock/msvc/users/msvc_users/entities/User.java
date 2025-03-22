@@ -1,7 +1,6 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
-import com.cryfirock.msvc.users.msvc_users.validations.IsExistsByEmail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -65,7 +64,6 @@ public class User {
     @NotBlank(message = "{NotBlank.user.email}")
     @Size(min = 1, max = 100, message = "{Size.user.email}")
     @Email(message = "{Email.user.email}")
-    @IsExistsByEmail
     private String email;
 
     @Column(name = "phone_number", unique = true)
