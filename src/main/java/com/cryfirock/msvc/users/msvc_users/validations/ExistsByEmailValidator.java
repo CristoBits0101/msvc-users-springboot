@@ -18,4 +18,5 @@ public class ExistsByEmailValidator implements ConstraintValidator<ExistsByEmail
     public boolean isValid(String email, ConstraintValidatorContext context) {
         return !userService.existsByEmail(email);
     }
+    
 }
