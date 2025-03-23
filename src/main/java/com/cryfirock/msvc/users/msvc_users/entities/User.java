@@ -54,13 +54,13 @@ public class User {
     @Column(name = "first_name")
     @NotEmpty(message = "{NotEmpty.user.firstName}")
     @Size(min = 1, max = 50, message = "{Size.user.firstName}")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "{Pattern.user.firstName}")
+    @Pattern(regexp = "^[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+$", message = "{Pattern.user.firstName}")
     private String firstName;
 
     @Column(name = "last_name")
     @NotEmpty(message = "{NotEmpty.user.lastName}")
     @Size(min = 1, max = 50, message = "{Size.user.lastName}")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "{Pattern.user.lastName}")
+    @Pattern(regexp = "^[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+$", message = "{Pattern.user.lastName}")
     private String lastName;
 
     @Column(unique = true)
