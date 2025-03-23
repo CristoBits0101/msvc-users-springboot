@@ -44,12 +44,16 @@ import lombok.Data;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+// Entity that maps the users table and autogenerates methods
 @AllArgsConstructor
 @Data
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User {
 
+    /**
+     * Attributes
+     */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
@@ -102,6 +106,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
 
+    /**
+     * Relationships
+     */
     @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" })
     @JoinTable(
             //
@@ -115,17 +122,29 @@ public class User {
     @ManyToMany
     private List<Role> roles;
 
+    /**
+     * Transients
+     */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Transient
     private boolean admin;
 
+    /**
+     * Embedded
+     */
     @Embedded
     private Audit audit;
 
+    /**
+     * Constructors
+     */
     public User() {
         this.audit = new Audit();
     }
 
+    /**
+     * Methods
+     */
     @PrePersist
     public void prePersistUser() {
         this.accountStatus = AccountStatus.ACTIVE;

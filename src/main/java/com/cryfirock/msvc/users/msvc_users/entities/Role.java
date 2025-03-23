@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// Entity that maps the roles table and autogenerates methods
 @AllArgsConstructor
 @Data
 @Entity
@@ -28,16 +29,22 @@ import lombok.NoArgsConstructor;
 @Table(name = "roles")
 public class Role {
 
-    @Id
+    /**
+     * Attributes
+     */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @Column(unique = true)
     @Size(max = 50)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    /**
+     * Relationships
+     */
     @JsonIgnoreProperties({ "roles" })
+    @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
 }
