@@ -4,7 +4,7 @@ package com.cryfirock.msvc.users.msvc_users.security.filter;
  * Dependencies
  */
 import com.cryfirock.msvc.users.msvc_users.entities.User;
-
+import com.cryfirock.msvc.users.msvc_users.services.JpaUserDetailsService;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,14 +51,28 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
     }
 
     /**
-     * Methods
+     * First function to run in the login process
+     * Receive username and password
+     * {@link JwtAutheticationFilter#attemptAuthentication(HttpServletRequest, HttpServletResponse)}
+     * 
+     * Second function to be executed in the login process
+     * Search for the user in the database
+     * {@link JpaUserDetailsService#loadUserByUsername(String)}
+     * 
+     * Third function to be executed in the login process
+     * Valida la contraseña y roles del usuario
+     * {@link AuthenticationManager#authenticate(Authentication)}
+     * 
+     * Fourth function to be executed in the login process
+     * Generates the JWT token after successful authentication
+     * {@link JwtAutheticationFilter#successfulAuthentication(HttpServletRequest, HttpServletResponse, FilterChain, Authentication)}
      * 
      * Attempts to authenticate a user
-     * Parse the request body to obtain the username and password credentials
-     * Delegate authentication to the provided AuthenticationManager
+     * - Parses the request body to obtain the username and password credentials
+     * - Delegates authentication to the provided AuthenticationManager
      * 
-     * @param request
-     * @param response
+     * @param request  HTTP request containing login credentials
+     * @param response HTTP response to send authentication result
      * @return Object with user data and role information
      */
     @Override

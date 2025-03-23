@@ -10,8 +10,6 @@ import org.springframework.boot.SpringApplication;
 public class MsvcUsersApplication {
 
 	/**
-	 * Methods
-	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
