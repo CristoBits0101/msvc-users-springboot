@@ -31,6 +31,7 @@ public class Role {
 
     /**
      * Attributes
+     * Include annotations that validate database rules
      */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -42,6 +43,7 @@ public class Role {
 
     /**
      * Relationships
+     * Include annotations that validate database rules
      */
     @JsonIgnoreProperties({ "roles" })
     @ManyToMany(mappedBy = "roles")

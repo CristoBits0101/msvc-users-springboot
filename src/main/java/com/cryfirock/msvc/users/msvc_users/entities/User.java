@@ -53,6 +53,7 @@ public class User {
 
     /**
      * Attributes
+     * Include annotations that validate database rules
      */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -108,22 +109,27 @@ public class User {
 
     /**
      * Relationships
+     * Include annotations that validate database rules
      */
     @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" })
     @JoinTable(
-            //
+            // Table that stores relational foreign keys
             name = "users_roles",
-            //
+
+            // Foreign key that belongs to the entity itself
             joinColumns = @JoinColumn(name = "user_id"),
-            //
+
+            // Foreign key belonging to the opposing entity
             inverseJoinColumns = @JoinColumn(name = "role_id"),
-            //
+
+            // Establishes that relationships are unique
             uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id" }))
     @ManyToMany
     private List<Role> roles;
 
     /**
      * Transients
+     * Includes annotations to exclude
      */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Transient
@@ -131,6 +137,7 @@ public class User {
 
     /**
      * Embedded
+     * Class that is embedded in another
      */
     @Embedded
     private Audit audit;

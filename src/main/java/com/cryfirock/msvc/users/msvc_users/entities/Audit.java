@@ -30,6 +30,7 @@ public class Audit {
 
     /**
      * Attributes
+     * Include annotations that validate database rules
      */
     @Column(name = "created_at")
     private LocalDateTime createdAt;
