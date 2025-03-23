@@ -1,6 +1,9 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
+import com.cryfirock.msvc.users.msvc_users.validations.ExistsByEmail;
+import com.cryfirock.msvc.users.msvc_users.validations.ExistsByPhoneNumber;
+import com.cryfirock.msvc.users.msvc_users.validations.ExistsByUsername;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -64,16 +67,20 @@ public class User {
     @NotBlank(message = "{NotBlank.user.email}")
     @Size(min = 1, max = 100, message = "{Size.user.email}")
     @Email(message = "{Email.user.email}")
+    @ExistsByEmail
     private String email;
 
     @Column(name = "phone_number", unique = true)
     @NotEmpty(message = "{NotEmpty.user.phoneNumber}")
     @Size(min = 9, max = 20, message = "{Size.user.phoneNumber}")
     @Pattern(regexp = "^[0-9]{9,20}$", message = "{Pattern.user.phoneNumber}")
+    @ExistsByPhoneNumber
     private String phoneNumber;
 
     @Column(unique = true)
     @Size(min = 1, max = 50, message = "{Size.user.username}")
+    @NotBlank(message = "{NotBlank.user.username}")
+    @ExistsByUsername
     private String username;
 
     @Column(name = "password_hash")
