@@ -1,5 +1,8 @@
 package com.cryfirock.msvc.users.msvc_users.security;
 
+/**
+ * Dependencies
+ */
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

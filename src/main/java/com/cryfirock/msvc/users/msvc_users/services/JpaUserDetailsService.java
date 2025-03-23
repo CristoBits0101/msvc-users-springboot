@@ -1,5 +1,8 @@
 package com.cryfirock.msvc.users.msvc_users.services;
 
+/**
+ * Dependencies
+ */
 import com.cryfirock.msvc.users.msvc_users.entities.User;
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
 import com.cryfirock.msvc.users.msvc_users.repositories.UserRepository;
@@ -11,7 +14,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.GrantedAuthority;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

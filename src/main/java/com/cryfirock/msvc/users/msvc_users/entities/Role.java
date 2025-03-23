@@ -1,5 +1,8 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
+/**
+ * Dependencies
+ */
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -9,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+
 import jakarta.validation.constraints.Size;
 
 import java.util.List;

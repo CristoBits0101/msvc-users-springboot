@@ -1,5 +1,8 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
+/**
+ * Dependencies
+ */
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;

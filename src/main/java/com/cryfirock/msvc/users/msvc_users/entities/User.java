@@ -1,6 +1,10 @@
 package com.cryfirock.msvc.users.msvc_users.entities;
 
+/**
+ * Dependencies
+ */
 import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
+
 import com.cryfirock.msvc.users.msvc_users.validations.ExistsByEmail;
 import com.cryfirock.msvc.users.msvc_users.validations.ExistsByPhoneNumber;
 import com.cryfirock.msvc.users.msvc_users.validations.ExistsByUsername;

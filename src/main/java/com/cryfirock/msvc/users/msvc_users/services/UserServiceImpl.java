@@ -1,7 +1,11 @@
 package com.cryfirock.msvc.users.msvc_users.services;
 
+/**
+ * Dependencies
+ */
 import com.cryfirock.msvc.users.msvc_users.entities.Role;
 import com.cryfirock.msvc.users.msvc_users.entities.User;
+
 import com.cryfirock.msvc.users.msvc_users.repositories.RoleRepository;
 import com.cryfirock.msvc.users.msvc_users.repositories.UserRepository;
 
@@ -10,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,8 @@
 package com.cryfirock.msvc.users.msvc_users.config;
 
+/**
+ * Dependencies
+ */
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

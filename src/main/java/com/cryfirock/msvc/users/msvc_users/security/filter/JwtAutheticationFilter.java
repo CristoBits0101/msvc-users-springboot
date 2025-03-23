@@ -1,12 +1,9 @@
 package com.cryfirock.msvc.users.msvc_users.security.filter;
 
+/**
+ * Dependencies
+ */
 import com.cryfirock.msvc.users.msvc_users.entities.User;
-
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -25,6 +22,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.crypto.SecretKey;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 // This filter authenticates users and generates tokens during the login process
 public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter {
