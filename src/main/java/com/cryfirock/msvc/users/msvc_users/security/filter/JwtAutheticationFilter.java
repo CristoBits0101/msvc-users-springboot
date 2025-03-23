@@ -1,12 +1,13 @@
 package com.cryfirock.msvc.users.msvc_users.security.filter;
 
+import com.cryfirock.msvc.users.msvc_users.entities.User;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.cryfirock.msvc.users.msvc_users.entities.User;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -84,16 +85,20 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
             Authentication authResult) throws IOException, ServletException {
         User user = (User) authResult.getPrincipal();
 
+        // Get the username
         String username = user.getUsername();
 
+        //
         String token = Jwts
                 .builder()
                 .subject(username)
                 .signWith(SECRET_KEY)
                 .compact();
 
+        //
         response.addHeader("Authorization", "Bearer " + token);
 
+        //
         Map<String, String> body = new HashMap<>();
 
         //
