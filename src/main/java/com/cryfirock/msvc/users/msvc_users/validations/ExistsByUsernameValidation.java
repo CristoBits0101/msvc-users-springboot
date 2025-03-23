@@ -1,11 +1,11 @@
 package com.cryfirock.msvc.users.msvc_users.validations;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.cryfirock.msvc.users.msvc_users.services.UserService;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ExistsByUsernameValidation implements ConstraintValidator<ExistsByUsername, String> {
 

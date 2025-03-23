@@ -1,10 +1,10 @@
 package com.cryfirock.msvc.users.msvc_users.repositories;
 
-import com.cryfirock.msvc.users.msvc_users.entities.Role;
+import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.Optional;
+import com.cryfirock.msvc.users.msvc_users.entities.Role;
 
 public interface RoleRepository extends CrudRepository<Role, Long> {
 

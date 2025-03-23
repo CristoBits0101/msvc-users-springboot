@@ -1,5 +1,9 @@
 package com.cryfirock.msvc.users.msvc_users.services;
 
+import com.cryfirock.msvc.users.msvc_users.entities.User;
+import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
+import com.cryfirock.msvc.users.msvc_users.repositories.UserRepository;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,10 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.cryfirock.msvc.users.msvc_users.entities.User;
-import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
-import com.cryfirock.msvc.users.msvc_users.repositories.UserRepository;
 
 @Service
 public class JpaUserDetailsService implements UserDetailsService {

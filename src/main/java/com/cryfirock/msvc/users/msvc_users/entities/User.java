@@ -4,6 +4,7 @@ import com.cryfirock.msvc.users.msvc_users.models.AccountStatus;
 import com.cryfirock.msvc.users.msvc_users.validations.ExistsByEmail;
 import com.cryfirock.msvc.users.msvc_users.validations.ExistsByPhoneNumber;
 import com.cryfirock.msvc.users.msvc_users.validations.ExistsByUsername;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
