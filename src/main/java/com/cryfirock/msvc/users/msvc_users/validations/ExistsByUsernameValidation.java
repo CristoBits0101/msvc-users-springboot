@@ -12,9 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class ExistsByUsernameValidation implements ConstraintValidator<ExistsByUsername, String> {
 
+    /**
+     * Attributes
+     */
     @Autowired
     private UserService userService;
 
+    /**
+     * Validates if the username already exists in the database
+     * 
+     * @param value   The username value to validate
+     * @param context The validation context
+     * @return true if the username does not exist, false if it does
+     */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         return !userService.existsByUsername(value);
