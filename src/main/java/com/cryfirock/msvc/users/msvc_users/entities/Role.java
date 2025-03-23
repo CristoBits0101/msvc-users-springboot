@@ -24,9 +24,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "roles")
 public class Role {
 
-    /**
-     * Atributes
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,9 +32,6 @@ public class Role {
     @Size(max = 50)
     private String name;
 
-    /**
-     * Relationship
-     */
     @ManyToMany(mappedBy = "roles")
     @JsonIgnoreProperties({ "roles" })
     private List<User> users;

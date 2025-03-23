@@ -32,6 +32,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -45,93 +46,82 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User {
 
-    /**
-     * Attributes
-     */
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @Column(name = "first_name")
     @NotEmpty(message = "{NotEmpty.user.firstName}")
-    @Size(min = 1, max = 50, message = "{Size.user.firstName}")
     @Pattern(regexp = "^[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+$", message = "{Pattern.user.firstName}")
+    @Size(min = 1, max = 50, message = "{Size.user.firstName}")
     private String firstName;
 
     @Column(name = "last_name")
     @NotEmpty(message = "{NotEmpty.user.lastName}")
-    @Size(min = 1, max = 50, message = "{Size.user.lastName}")
     @Pattern(regexp = "^[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+$", message = "{Pattern.user.lastName}")
+    @Size(min = 1, max = 50, message = "{Size.user.lastName}")
     private String lastName;
 
     @Column(unique = true)
-    @NotBlank(message = "{NotBlank.user.email}")
-    @Size(min = 1, max = 100, message = "{Size.user.email}")
     @Email(message = "{Email.user.email}")
     @ExistsByEmail
+    @NotBlank(message = "{NotBlank.user.email}")
+    @Size(min = 1, max = 100, message = "{Size.user.email}")
     private String email;
 
     @Column(name = "phone_number", unique = true)
-    @NotEmpty(message = "{NotEmpty.user.phoneNumber}")
-    @Size(min = 9, max = 20, message = "{Size.user.phoneNumber}")
-    @Pattern(regexp = "^[0-9]{9,20}$", message = "{Pattern.user.phoneNumber}")
     @ExistsByPhoneNumber
+    @NotEmpty(message = "{NotEmpty.user.phoneNumber}")
+    @Pattern(regexp = "^[0-9]{9,20}$", message = "{Pattern.user.phoneNumber}")
+    @Size(min = 9, max = 20, message = "{Size.user.phoneNumber}")
     private String phoneNumber;
 
     @Column(unique = true)
-    @Size(min = 1, max = 50, message = "{Size.user.username}")
-    @NotBlank(message = "{NotBlank.user.username}")
     @ExistsByUsername
+    @NotBlank(message = "{NotBlank.user.username}")
+    @Size(min = 1, max = 50, message = "{Size.user.username}")
     private String username;
 
     @Column(name = "password_hash")
-    @NotBlank(message = "{NotBlank.user.password}")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotBlank(message = "{NotBlank.user.password}")
     private String password;
 
-    @NotNull(message = "{NotNull.user.dob}")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "{NotNull.user.dob}")
     private LocalDate dob;
 
     @NotBlank(message = "{NotBlank.user.address}")
     private String address;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "account_status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
 
-    /**
-     * Relationship
-     */
-    @ManyToMany
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = {
-            @UniqueConstraint(columnNames = { "user_id", "role_id" }) })
     @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" })
+    @JoinTable(
+            //
+            name = "users_roles",
+            //
+            joinColumns = @JoinColumn(name = "user_id"),
+            //
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            //
+            uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id" }))
+    @ManyToMany
     private List<Role> roles;
 
-    /**
-     * Auxiliary
-     */
-    @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Transient
     private boolean admin;
 
-    /**
-     * Embeddable
-     */
     @Embedded
     private Audit audit;
 
-    /**
-     * Constructors
-     */
     public User() {
         this.audit = new Audit();
     }
 
-    /**
-     * Methods
-     */
     @PrePersist
     public void prePersistUser() {
         this.accountStatus = AccountStatus.ACTIVE;

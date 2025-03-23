@@ -35,7 +35,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // Writing methods
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasErrors())
@@ -63,7 +62,6 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    // Reading methods
     @GetMapping
     public List<User> getUsers() {
         return userService.findAll();
@@ -71,46 +69,27 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        // Find user by id
         Optional<User> userOptional = userService.findById(id);
-
         if (userOptional.isPresent())
-            // Return 200 OK if found, else throws an exception (possible 500)
             return ResponseEntity.ok(userOptional.orElseThrow());
-
-        // Return 404 Not Found if user does not exist
         return ResponseEntity.notFound().build();
     }
 
-    // Removal methods
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        // Create user object with id
         User user = new User();
         user.setId(id);
-
-        // Delete user if found, else return 404 Not Found
         Optional<User> userOptional = userService.deleteUser(user);
-
-        // Return 200 OK if found, else throws an exception (possible 500)
         if (userOptional.isPresent())
             return ResponseEntity.ok(userOptional.orElseThrow());
-
-        // Return 404 Not Found if user does not exist
         return ResponseEntity.notFound().build();
     }
 
-    // BindingResult returns annotation messages, not exceptions
     private ResponseEntity<?> validation(BindingResult result) {
-        // Create a new user object to return errors
         Map<String, String> errors = new HashMap<>();
-
-        // Loop through the validation errors and add them to the errors map
         result.getFieldErrors().forEach(err -> {
             errors.put(err.getField(), err.getDefaultMessage());
         });
-
-        // Return 400 Bad Request with errors always after validation
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 

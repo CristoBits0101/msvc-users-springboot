@@ -23,18 +23,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Audit {
 
-    /**
-     * Atributes
-     */
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    /**
-     * Methods
-     */
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
