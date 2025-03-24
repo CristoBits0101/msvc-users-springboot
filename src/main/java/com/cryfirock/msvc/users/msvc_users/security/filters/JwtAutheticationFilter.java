@@ -1,10 +1,9 @@
-package com.cryfirock.msvc.users.msvc_users.security.filter;
+package com.cryfirock.msvc.users.msvc_users.security.filters;
 
 /**
  * Dependencies
  */
 import com.cryfirock.msvc.users.msvc_users.entities.User;
-import static com.cryfirock.msvc.users.msvc_users.security.config.TokenJwtConfig.*;
 import com.cryfirock.msvc.users.msvc_users.services.JpaUserDetailsService;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -18,6 +17,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import static com.cryfirock.msvc.users.msvc_users.security.configurations.TokenJwtConfig.*;
 
 import java.io.IOException;
 import java.util.Collection;
