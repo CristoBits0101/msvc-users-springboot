@@ -28,7 +28,7 @@ public class SpringSecurityConfig {
         private AuthenticationConfiguration authenticationConfiguration;
 
         /**
-         * 
+         * Enables injection of the authentication management filter
          * 
          * @return authenticationConfiguration
          * @throws Exception
@@ -70,6 +70,7 @@ public class SpringSecurityConfig {
                                 // Disable CSRF protection
                                 .csrf(csrf -> csrf
                                                 .disable())
+                                // Registering the authentication management filter
                                 .addFilter(new JwtAutheticationFilter(
                                                 authenticationConfiguration.getAuthenticationManager()))
                                 // Disable session cookies
