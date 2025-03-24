@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
 import jakarta.servlet.FilterChain;
@@ -17,19 +18,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.crypto.SecretKey;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static com.cryfirock.msvc.users.msvc_users.security.TokenJwtConfig.*;
 
 // This filter authenticates users and generates tokens during the login process
 public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -38,8 +40,6 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
      * Attributes
      */
     private AuthenticationManager authenticationManager;
-
-    private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
 
     /**
      * Constructors
@@ -140,15 +140,40 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
         // Get the username from the authenticated user
         String username = user.getUsername();
 
-        // Generate a JWT token based on the username
+        // Retrieve the roles (authorities) of the authenticated user
+        Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
+
+        // Create a JWT claims object to store additional information
+        Claims claims = Jwts
+                .claims()
+                .build();
+
+        // Add the roles to the claims
+        claims.put("authorities", roles);
+
+        // Generate a JWT token based on the data
+        /**
+         * Generate a JWT token based on the data
+         * 
+         * 1. Start building the token
+         * 2. Define the subject
+         * 3. Add claims, additional information
+         * 4. Set the expiration date
+         * 5. Set the issue date
+         * 6. Sign the token
+         * 7. Generates the compact token
+         */
         String token = Jwts
                 .builder()
                 .subject(username)
+                .claims(claims)
+                .expiration(new Date(System.currentTimeMillis() + 3600000))
+                .issuedAt(new Date())
                 .signWith(SECRET_KEY)
                 .compact();
 
         // Set the token in the Authorization header of the response
-        response.addHeader("Authorization", "Bearer " + token);
+        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + " " + token);
 
         // Prepare a response body with the token, username, and a message
         Map<String, String> body = new HashMap<>();
