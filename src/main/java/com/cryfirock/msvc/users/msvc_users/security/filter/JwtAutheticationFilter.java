@@ -151,7 +151,6 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
         // Add the roles to the claims
         claims.put("authorities", roles);
 
-        // Generate a JWT token based on the data
         /**
          * Generate a JWT token based on the data
          * 
@@ -186,8 +185,36 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
 
         // Set the response type and status
-        response.setContentType("application/json");
+        response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    /**
+     * This function is executed when authentication fails.
+     * It prepares and sends an error response to the client.
+     * 
+     * - Sets the HTTP status code to 401 (Unauthorized).
+     * - Writes the response body as JSON.
+     * 
+     * @param request  The HTTP request that led to the authentication failure
+     * @param response The HTTP response to send back to the client
+     * @param failed   The exception containing details about the auth failure
+     */
+    @Override
+    protected void unsuccessfulAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException failed) throws IOException, ServletException {
+        // Constructs a response body containing an error message
+        Map<String, String> body = new HashMap<>();
+
+        body.put("message", "Authentication failed, credentials are not correct.");
+        body.put("error", failed.getMessage());
+
+        // Includes the specific authentication failure reason
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.setStatus(401);
+        response.setContentType(CONTENT_TYPE);
     }
 
 }
