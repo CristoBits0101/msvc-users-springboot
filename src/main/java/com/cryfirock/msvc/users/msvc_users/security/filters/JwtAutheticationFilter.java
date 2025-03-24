@@ -149,7 +149,7 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
         // Create a JWT claims object to store additional information
         Claims claims = Jwts
                 .claims()
-                .add("authorities", roles)
+                .add("authorities", new ObjectMapper().writeValueAsString(roles))
                 .add("username", username)
                 .build();
 
