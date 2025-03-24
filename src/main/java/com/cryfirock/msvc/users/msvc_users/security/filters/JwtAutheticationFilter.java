@@ -32,6 +32,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 // This filter authenticates users and generates tokens during the login process
@@ -136,7 +137,8 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
             Authentication authResult) throws IOException, ServletException {
 
         // Retrieve the authenticated user
-        User user = (User) authResult.getPrincipal();
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authResult
+                .getPrincipal();
 
         // Get the username from the authenticated user
         String username = user.getUsername();
@@ -147,10 +149,9 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
         // Create a JWT claims object to store additional information
         Claims claims = Jwts
                 .claims()
+                .add("authorities", roles)
+                .add("username", username)
                 .build();
-
-        // Add the roles to the claims
-        claims.put("authorities", roles);
 
         /**
          * Generate a JWT token based on the data
