@@ -4,7 +4,9 @@ package com.cryfirock.msvc.users.msvc_users.security.filter;
  * Dependencies
  */
 import com.cryfirock.msvc.users.msvc_users.entities.User;
+import static com.cryfirock.msvc.users.msvc_users.security.config.TokenJwtConfig.*;
 import com.cryfirock.msvc.users.msvc_users.services.JpaUserDetailsService;
+
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,8 +32,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import static com.cryfirock.msvc.users.msvc_users.security.TokenJwtConfig.*;
 
 // This filter authenticates users and generates tokens during the login process
 public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter {
