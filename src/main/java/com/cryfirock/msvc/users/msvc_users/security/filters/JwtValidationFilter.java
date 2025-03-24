@@ -32,96 +32,91 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
+ * Verifies credentials and validates requests to the servers
  * JWT filter for verifying and processing authentication tokens in requests
  * Extends BasicAuthenticationFilter for Spring Security integration
  */
 public class JwtValidationFilter extends BasicAuthenticationFilter {
 
-    /**
-     * Initializes the filter with Spring's AuthenticationManager
-     * 
-     * @param authenticationManager Spring Security's authentication provider
-     */
-    public JwtValidationFilter(AuthenticationManager authenticationManager) {
-        // Delegate initialization to parent
-        super(authenticationManager);
-    }
-
-    @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain chain) throws IOException, ServletException, IOException, java.io.IOException {
-
-        // 1. Extract Authorization header
-        String header = request.getHeader(HEADER_AUTHORIZATION);
-
-        // 2. Basic header validation
-        if (header == null || !header.startsWith(PREFIX_TOKEN)) {
-            // If no token or wrong prefix, continue without authentication
-            chain.doFilter(request, response);
-            return;
+        /**
+         * Initializes the filter with Spring's AuthenticationManager
+         * 
+         * @param authenticationManager Spring Security's authentication provider
+         */
+        public JwtValidationFilter(AuthenticationManager authenticationManager) {
+                // Delegate initialization to parent
+                super(authenticationManager);
         }
 
-        // 3. Clean token (remove "Bearer " prefix)
-        String token = header.replace(PREFIX_TOKEN, "");
+        @Override
+        protected void doFilterInternal(
+                        HttpServletRequest request,
+                        HttpServletResponse response,
+                        FilterChain chain) throws IOException, ServletException, IOException, java.io.IOException {
 
-        try {
-            // 4. JWT parsing and verification
-            Claims claims = Jwts
-                    .parser()
-                    // Secret key verification
-                    .verifyWith(SECRET_KEY)
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
+                // 1. Extract Authorization header
+                String header = request.getHeader(HEADER_AUTHORIZATION);
 
-            // 5. Extract username from token subject
-            String username = claims.getSubject();
+                // 2. Basic header validation
+                if (header == null || !header.startsWith(PREFIX_TOKEN)) {
+                        // If no token or wrong prefix, continue without authentication
+                        chain.doFilter(request, response);
+                        return;
+                }
 
-            // 6. Extract authorities from custom claim
-            Object authoritiesClaims = claims.get("authorities");
+                // 3. Clean token (remove "Bearer " prefix)
+                String token = header.replace(PREFIX_TOKEN, "");
 
-            // 7. Convert authorities to Spring Security format
-            Collection<? extends GrantedAuthority> authorities = Arrays.asList(
-                    new ObjectMapper()
-                            .addMixIn(SimpleGrantedAuthority.class,
-                                    SimpleGrantedAuthorityJsonCreator.class)
-                            .readValue(authoritiesClaims
-                                    .toString()
-                                    .getBytes(),
-                                    SimpleGrantedAuthority[].class));
+                try {
+                        // 4. JWT parsing and verification
+                        Claims claims = Jwts
+                                        .parser()
+                                        // Secret key verification
+                                        .verifyWith(SECRET_KEY)
+                                        .build()
+                                        .parseSignedClaims(token)
+                                        .getPayload();
 
-            // 8. Create authentication token
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    username,
-                    null,
-                    authorities);
+                        // 5. Extract username from token subject
+                        String username = claims.getSubject();
 
-            // 9. Set authentication in security context
-            SecurityContextHolder
-                    .getContext()
-                    .setAuthentication(authenticationToken);
+                        // 6. Extract authorities from custom claim
+                        Object authoritiesClaims = claims.get("authorities");
 
-            // 10. Continue filter chain
-            chain
-                    .doFilter(request, response);
+                        // 7. Convert authorities to Spring Security format
+                        Collection<? extends GrantedAuthority> authorities = Arrays.asList(
+                                        new ObjectMapper()
+                                                        .addMixIn(
+                                                                        SimpleGrantedAuthority.class,
+                                                                        SimpleGrantedAuthorityJsonCreator.class)
+                                                        .readValue(authoritiesClaims
+                                                                        .toString()
+                                                                        .getBytes(),
+                                                                        SimpleGrantedAuthority[].class));
 
-        } catch (JwtException e) {
-            // 11. JWT validation failed - prepare error response
-            Map<String, String> body = new HashMap<>();
-            body.put("error", e.getMessage());
-            body.put("message", "Invalid JWT token!");
+                        // 8. Create authentication token
+                        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                                        username,
+                                        null,
+                                        authorities);
 
-            response
-                    .getWriter()
-                    .write(new ObjectMapper()
-                            .writeValueAsString(body));
-            response
-                    .setStatus(HttpStatus.UNAUTHORIZED
-                            .value());
-            response
-                    .setContentType(CONTENT_TYPE);
+                        // 9. Set authentication in security context
+                        SecurityContextHolder
+                                        .getContext()
+                                        .setAuthentication(authenticationToken);
+
+                        // 10. Continue filter chain
+                        chain.doFilter(request, response);
+
+                } catch (JwtException e) {
+                        // 11. When JWT validation fails, prepare the error response
+                        Map<String, String> body = new HashMap<>();
+                        body.put("error", e.getMessage());
+                        body.put("message", "Invalid JWT token!");
+
+                        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+                        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                        response.setContentType(CONTENT_TYPE);
+                }
         }
-    }
 }

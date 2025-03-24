@@ -34,7 +34,7 @@ public class SpringSecurityConfig {
          * @throws Exception
          */
         @Bean
-        AuthenticationManager AuthenticationManager() throws Exception {
+        AuthenticationManager authenticationManager() throws Exception {
                 return authenticationConfiguration.getAuthenticationManager();
         }
 

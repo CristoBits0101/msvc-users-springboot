@@ -29,6 +29,9 @@ public class ExistsByEmailValidation implements ConstraintValidator<ExistsByEmai
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (userService == null)
+            return true;
+
         return !userService.existsByEmail(value);
     }
 
