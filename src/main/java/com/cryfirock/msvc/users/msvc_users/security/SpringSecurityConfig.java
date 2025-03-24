@@ -43,7 +43,7 @@ public class SpringSecurityConfig {
                 return http
                                 // Sets the type of access to the routes
                                 .authorizeHttpRequests(authz -> authz
-                                                .requestMatchers(HttpMethod.GET, "/api/users")
+                                                .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/**")
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/api/users")
                                                 .permitAll()
