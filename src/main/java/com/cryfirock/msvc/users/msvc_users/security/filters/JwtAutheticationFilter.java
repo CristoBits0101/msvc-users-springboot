@@ -179,7 +179,7 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
         // Prepare a response body with the token, username, and a message
         Map<String, String> body = new HashMap<>();
 
-        body.put("token", "token");
+        body.put("token", token);
         body.put("username", username);
         body.put("message", String.format("Welcome %s! ", username));
 
