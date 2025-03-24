@@ -6,12 +6,9 @@ package com.cryfirock.msvc.users.msvc_users.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 
 // Spring configuration classes that additionally scan packages
 @Configuration
@@ -20,20 +17,6 @@ import org.springframework.security.config.annotation.authentication.configurati
         "com.cryfirock.msvc.users.msvc_users.validations"
 })
 public class AppConfig {
-
-    @Autowired
-    private AuthenticationConfiguration authenticationConfiguration;
-
-    /**
-     * 
-     * 
-     * @return authenticationConfiguration
-     * @throws Exception
-     */
-    @Bean
-    AuthenticationManager AuthenticationManager() throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
 
     /**
      * Configure the MessageSource bean to use properties files as message sources

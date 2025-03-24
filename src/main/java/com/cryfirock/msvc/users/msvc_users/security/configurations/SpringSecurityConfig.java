@@ -1,5 +1,6 @@
 package com.cryfirock.msvc.users.msvc_users.security.configurations;
 
+import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Dependencies
  */
@@ -7,7 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.http.HttpMethod;
-
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
@@ -16,9 +18,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.cryfirock.msvc.users.msvc_users.security.filters.JwtAutheticationFilter;
+
 // Configuration class for application security
 @Configuration
 public class SpringSecurityConfig {
+
+        @Autowired
+        private AuthenticationConfiguration authenticationConfiguration;
+
+        /**
+         * 
+         * 
+         * @return authenticationConfiguration
+         * @throws Exception
+         */
+        @Bean
+        AuthenticationManager AuthenticationManager() throws Exception {
+                return authenticationConfiguration.getAuthenticationManager();
+        }
 
         /**
          * Beans
@@ -52,6 +70,8 @@ public class SpringSecurityConfig {
                                 // Disable CSRF protection
                                 .csrf(csrf -> csrf
                                                 .disable())
+                                .addFilter(new JwtAutheticationFilter(
+                                                authenticationConfiguration.getAuthenticationManager()))
                                 // Disable session cookies
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
