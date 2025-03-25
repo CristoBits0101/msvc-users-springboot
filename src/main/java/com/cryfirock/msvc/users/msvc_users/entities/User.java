@@ -73,20 +73,20 @@ public class User {
 
     @Column(unique = true)
     @Email(message = "{Email.user.email}")
-    // @ExistsByEmail
+    @ExistsByEmail
     @NotBlank(message = "{NotBlank.user.email}")
     @Size(min = 1, max = 100, message = "{Size.user.email}")
     private String email;
 
     @Column(name = "phone_number", unique = true)
-    // @ExistsByPhoneNumber
+    @ExistsByPhoneNumber
     @NotEmpty(message = "{NotEmpty.user.phoneNumber}")
     @Pattern(regexp = "^[0-9]{9,20}$", message = "{Pattern.user.phoneNumber}")
     @Size(min = 9, max = 20, message = "{Size.user.phoneNumber}")
     private String phoneNumber;
 
     @Column(unique = true)
-    // @ExistsByUsername
+    @ExistsByUsername
     @NotBlank(message = "{NotBlank.user.username}")
     @Size(min = 1, max = 50, message = "{Size.user.username}")
     private String username;
