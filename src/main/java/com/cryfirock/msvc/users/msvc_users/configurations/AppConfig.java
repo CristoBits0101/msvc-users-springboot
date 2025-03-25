@@ -33,19 +33,20 @@ public class AppConfig implements WebMvcConfigurer {
      * Attributes
      */
     @Autowired
-    @Qualifier("timeInterceptor")
-    private HandlerInterceptor timeInterceptor;
+    @Qualifier("userOperationsInterceptor")
+    private HandlerInterceptor userOperationsInterceptor;
 
     /**
      * Register the interceptor and the routes on which it runs
      * 
-     * @param registry interceptor registry
+     * @param registry
      */
     @Override
     public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry
-                .addInterceptor(timeInterceptor)
-                .addPathPatterns("/api/users");
+                .addInterceptor(userOperationsInterceptor)
+                .addPathPatterns("/api/users/**")
+                .excludePathPatterns("/api/users");
     }
 
     /**
