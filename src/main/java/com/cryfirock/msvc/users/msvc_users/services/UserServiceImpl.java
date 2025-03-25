@@ -5,7 +5,7 @@ package com.cryfirock.msvc.users.msvc_users.services;
  */
 import com.cryfirock.msvc.users.msvc_users.entities.Role;
 import com.cryfirock.msvc.users.msvc_users.entities.User;
-
+import com.cryfirock.msvc.users.msvc_users.exceptions.UserNotFoundException;
 import com.cryfirock.msvc.users.msvc_users.repositories.RoleRepository;
 import com.cryfirock.msvc.users.msvc_users.repositories.UserRepository;
 
@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
 
         // Assign the default "ROLE_USER" role
         Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
+
         optionalRoleUser.ifPresent(roles::add);
 
         // If the user is an admin, add "ROLE_ADMIN"
@@ -76,6 +77,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Optional<User> update(Long id, User user) {
         Optional<User> optionalUser = userRepository.findById(id);
+
+        // Throw an exception if user does not exist
+        if (optionalUser.isEmpty())
+            throw new UserNotFoundException("User " + id + " does not exist!");
+
+        // Check if user exists before updating
         if (optionalUser.isPresent()) {
             User userToUpdate = optionalUser.get();
 
