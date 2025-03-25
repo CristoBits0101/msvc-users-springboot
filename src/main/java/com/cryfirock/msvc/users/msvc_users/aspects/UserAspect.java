@@ -1,60 +1,110 @@
 package com.cryfirock.msvc.users.msvc_users.aspects;
 
-import org.aspectj.lang.annotation.Aspect;
+/**
+ * Dependencies
+ */
+import java.util.Arrays;
 
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.ProceedingJoinPoint;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
+/**
+ * Aspect for logging user service operations
+ * Executes functions before, after and around service methods
+ */
 @Aspect
 public class UserAspect {
-    
+
+    /**
+     * Logger for tracking method executions
+     */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Before("execution(* com.andres.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    /**
+     * Logs before execution of UserService methods
+     * 
+     * @param joinPoint provides access to method information
+     */
+    @Before("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
     public void loggerBefore(JoinPoint joinPoint) {
-        
+        // Get method name and arguments
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
-        logger.info("Antes: " + method + " con los argumentos " + args);
+
+        // Log method entry with parameters
+        logger.info("Before executing: " + method + " with arguments " + args);
     }
-    
-    @After("execution(* com.andres.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+
+    /**
+     * Logs after execution of UserService methods (regardless of outcome)
+     * 
+     * @param joinPoint provides access to method information
+     */
+    @After("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
     public void loggerAfter(JoinPoint joinPoint) {
-
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
-        logger.info("Despues: " + method + " con los argumentos " + args);
-    }
-    
-    @AfterReturning("execution(* com.andres.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
-    public void loggerAfterReturningr(JoinPoint joinPoint) {
 
+        logger.info("After executing: " + method + " with arguments " + args);
+    }
+
+    /**
+     * Logs after successful return from UserService methods
+     * 
+     * @param joinPoint provides access to method information
+     */
+    @AfterReturning("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
+    public void loggerAfterReturning(JoinPoint joinPoint) {
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
-        logger.info("Despues de retornar: " + method + " con los argumentos " + args);
+
+        logger.info("After successful execution: " + method + " with arguments " + args);
     }
-    
-    @AfterThrowing("execution(* com.andres.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+
+    /**
+     * Logs after exceptions in UserService methods
+     * 
+     * @param joinPoint provides access to method information
+     */
+    @AfterThrowing("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
     public void loggerAfterThrowing(JoinPoint joinPoint) {
-
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
-        logger.info("Despues lanzar la excepcion: " + method + " con los argumentos " + args);
+
+        logger.error("After exception in: " + method + " with arguments " + args);
     }
-    
-    @Around("execution(* com.andres.curso.springboot.app.aop.springbootaop.services.*.*(..))")
-    public Object loggerAround(ProceedingJoinPoint joinPoint) throws Throwable{
+
+    /**
+     * Wraps around UserService methods for comprehensive logging
+     * 
+     * @param joinPoint provides access to proceed with method execution
+     * @return the method result
+     * @throws Throwable if the method throws an exception
+     */
+    @Around("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
+    public Object loggerAround(ProceedingJoinPoint joinPoint) throws Throwable {
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
         Object result = null;
+
         try {
-            logger.info("El metodo " + method + "() con los parametros " + args);
+            logger.info("Entering method " + method + "() with parameters " + args);
             result = joinPoint.proceed();
-            logger.info("El metodo " + method + "() retorna el resultado: " + result);
+            logger.info("Method " + method + "() returned: " + result);
             return result;
         } catch (Throwable e) {
-            logger.error("Error en la llamada del metodo " + method + "()");
+            logger.error("Error in method " + method + "(): " + e.getMessage());
             throw e;
         }
-
     }
-
 }
