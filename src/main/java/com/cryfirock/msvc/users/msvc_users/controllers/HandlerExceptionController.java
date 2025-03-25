@@ -1,5 +1,7 @@
 package com.cryfirock.msvc.users.msvc_users.controllers;
 
+import com.cryfirock.msvc.users.msvc_users.models.Error;
+
 import java.util.Date;
 
 import org.springframework.http.HttpStatus;
