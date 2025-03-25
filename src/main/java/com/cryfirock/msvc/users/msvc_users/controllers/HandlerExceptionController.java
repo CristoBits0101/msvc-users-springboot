@@ -13,6 +13,13 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @RestControllerAdvice
 public class HandlerExceptionController {
 
+    /**
+     * Handles 404 errors
+     * 
+     * @param e
+     * @return ResponseEntity
+     * @throws NoHandlerFoundException
+     */
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<Error> notFoundEx(NoHandlerFoundException e) {
         // New error instance
