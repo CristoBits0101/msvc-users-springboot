@@ -7,6 +7,9 @@ import lombok.Data;
 @Data
 public class Error {
 
+    /**
+     * Attributes
+     */
     private String message;
     private String error;
     private int status;
