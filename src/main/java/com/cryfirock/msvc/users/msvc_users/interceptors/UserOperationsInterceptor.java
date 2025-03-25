@@ -34,7 +34,9 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(UserOperationsInterceptor.class);
 
     /**
-     * 
+     * @param request
+     * @param response
+     * @param handler
      */
     @Override
     public boolean preHandle(
@@ -42,20 +44,22 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
             @NonNull HttpServletResponse response,
             @NonNull Object handler) throws Exception {
 
-        // Solo interceptar métodos de controlador
-        if (!(handler instanceof HandlerMethod)) {
+        // Only intercept controller methods
+        if (!(handler instanceof HandlerMethod))
             return true;
-        }
 
+        // Parse object
         HandlerMethod controller = (HandlerMethod) handler;
-        String method = request.getMethod();
-        String endpoint = request.getRequestURI();
 
-        // Medición de tiempo
+        // Get the route and method
+        String endpoint = request.getRequestURI();
+        String method = request.getMethod();
+
+        // Time measurement
         long start = System.currentTimeMillis();
         request.setAttribute("start", start);
 
-        // Validar token JWT para rutas protegidas
+        // Validate JWT token for protected routes
         if (!endpoint.equals("/api/users") || !method.equals("POST")) {
             String authHeader = request.getHeader("Authorization");
 
@@ -73,14 +77,14 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
                         .parseSignedClaims(token)
                         .getPayload();
 
-                // Verificar expiración del token
+                // Check token expiration
                 if (claims.getExpiration().before(new Date())) {
                     logger.warn("Token expirado para el usuario {}", claims.getSubject());
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expirado");
                     return false;
                 }
 
-                // Registrar información del usuario
+                // Record user information
                 request.setAttribute("username", claims.getSubject());
 
             } catch (Exception e) {
@@ -90,7 +94,7 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
             }
         }
 
-        logger.info("Iniciando operación {} en {} - Controlador: {}",
+        logger.info("Starting operation {} on {} - Controller: {}",
                 method,
                 endpoint,
                 controller.getMethod().getName());
@@ -98,6 +102,12 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    /**
+     * @param request
+     * @param response
+     * @param handler
+     * @param modelAndView
+     */
     @Override
     public void postHandle(
             @NonNull HttpServletRequest request,
@@ -105,24 +115,33 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
             @NonNull Object handler,
             @Nullable ModelAndView modelAndView) throws Exception {
 
+        // Only intercept controller methods
         if (!(handler instanceof HandlerMethod)) {
             return;
         }
 
+        // Parse object
         HandlerMethod controller = (HandlerMethod) handler;
+
+        // Gets the current timestamp at the end of request processing
         long end = System.currentTimeMillis();
         long start = (long) request.getAttribute("start");
+
+        // Calculate the operation duration by subtracting start from end
         long duration = end - start;
 
+        // Gets start timestamp, casts to long, may be null
         String username = (String) request.getAttribute("username");
+
+        // Logs HTTP method, execution time, user (or 'anon') and status code
         String logMessage = String.format(
-                "Operación %s completada en %d ms - Usuario: %s - Status: %d",
+                "Operation %s completed in %d ms - User: %s - Status: %d",
                 request.getMethod(),
                 duration,
                 username != null ? username : "anon",
                 response.getStatus());
 
-        // Clasificar logs por nivel según el método HTTP
+        // Sort logs by level according to the HTTP method
         switch (request.getMethod()) {
             case "POST":
             case "PUT":
@@ -133,9 +152,9 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
                 logger.info(logMessage);
         }
 
-        // Registrar especialmente operaciones sensibles
+        // Log especially sensitive operations
         if (response.getStatus() >= 400) {
-            logger.error("Error en operación {}: {} - {}",
+            logger.error("Error in operation {}: {} - {}",
                     controller.getMethod().getName(),
                     response.getStatus(),
                     request.getRequestURI());
