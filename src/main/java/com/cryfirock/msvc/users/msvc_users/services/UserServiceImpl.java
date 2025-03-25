@@ -180,11 +180,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Optional<User> deleteUser(User user) {
         // Check if user exists before deleting
-        Optional<User> userToDelete = userRepository.findById(user.getId());
-
         // Throw an exception if user does not exist
-        if (userToDelete.isEmpty())
-            throw new UserNotFoundException("User " + user.getId() + " does not exist!");
+        Optional<User> userToDelete = Optional.ofNullable(
+                userRepository
+                        .findById(user.getId())
+                        .orElseThrow(() -> new UserNotFoundException("User " + user.getId() + " does not exist!")));
 
         // If the user exists, delete them
         userToDelete.ifPresent(userRepository::delete);
