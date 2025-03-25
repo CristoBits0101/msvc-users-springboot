@@ -64,7 +64,7 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
             String authHeader = request.getHeader("Authorization");
 
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                logger.warn("Intento de acceso no autorizado a {}", endpoint);
+                logger.warn("Unauthorized access attempt to {}", endpoint);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token JWT requerido");
                 return false;
             }
@@ -79,8 +79,8 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
 
                 // Check token expiration
                 if (claims.getExpiration().before(new Date())) {
-                    logger.warn("Token expirado para el usuario {}", claims.getSubject());
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expirado");
+                    logger.warn("Token expired for user {}", claims.getSubject());
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired");
                     return false;
                 }
 
@@ -88,8 +88,8 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
                 request.setAttribute("username", claims.getSubject());
 
             } catch (Exception e) {
-                logger.error("Error validando token JWT: {}", e.getMessage());
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido");
+                logger.error("Error validating JWT token: {}", e.getMessage());
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
                 return false;
             }
         }
