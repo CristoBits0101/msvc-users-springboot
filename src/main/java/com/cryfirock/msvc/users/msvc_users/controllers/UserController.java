@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 // API controller allowing requests from all origins to /api/users
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins="http://localhost:8082", originPatterns = "*")
 @RequestMapping("/api/users")
 public class UserController {
 
@@ -49,6 +49,7 @@ public class UserController {
      * @param result of the validation
      * @return ResponseEntity with validation errors or 201 and the created user
      */
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
         // Validates parameters that store the data of the sent JSON
@@ -69,6 +70,7 @@ public class UserController {
      * @param result of the validation
      * @return ResponseEntity with validation errors or 201 and the created user
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/superuser")
     public ResponseEntity<?> createAdmin(@Valid @RequestBody User user, BindingResult result) {
         // Validates parameters that store the data of the sent JSON
@@ -89,6 +91,7 @@ public class UserController {
      * @param user the user to update
      * @return ResponseEntity with validation errors, 200 if updated or 404 if error
      */
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User user, BindingResult result) {
         // Validates parameters that store the data of the sent JSON
@@ -113,6 +116,7 @@ public class UserController {
      * 
      * @return List of all users
      */
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     public List<User> getUsers() {
         // Search for users and return them in the response
@@ -125,6 +129,7 @@ public class UserController {
      * @param id ID of the user
      * @return ResponseEntity with the user 200 or 404 if not found
      */
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         // Find the user by ID
@@ -144,6 +149,7 @@ public class UserController {
      * @param id ID of the user to delete
      * @return ResponseEntity with 200 if deleted, or 404 if not found
      */
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         // Create a new user object
