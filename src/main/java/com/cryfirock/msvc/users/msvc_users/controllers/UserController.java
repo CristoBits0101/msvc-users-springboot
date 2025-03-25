@@ -49,7 +49,6 @@ public class UserController {
      * @param result of the validation
      * @return ResponseEntity with validation errors or 201 and the created user
      */
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
         // Validates parameters that store the data of the sent JSON
