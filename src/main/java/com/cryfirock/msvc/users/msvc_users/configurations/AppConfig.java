@@ -3,12 +3,23 @@ package com.cryfirock.msvc.users.msvc_users.configurations;
 /**
  * Dependencies
  */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.context.MessageSource;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+
+import org.springframework.lang.NonNull;
+
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import org.springframework.web.servlet.HandlerInterceptor;
 
 // Spring configuration classes that additionally scan packages
 @Configuration
@@ -16,7 +27,26 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
         "com.cryfirock.msvc.users.msvc_users",
         "com.cryfirock.msvc.users.msvc_users.validations"
 })
-public class AppConfig {
+public class AppConfig implements WebMvcConfigurer {
+
+    /**
+     * Attributes
+     */
+    @Autowired
+    @Qualifier("timeInterceptor")
+    private HandlerInterceptor timeInterceptor;
+
+    /**
+     * Register the interceptor and the routes on which it runs
+     * 
+     * @param registry interceptor registry
+     */
+    @Override
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
+        registry
+                .addInterceptor(timeInterceptor)
+                .addPathPatterns("/api/users");
+    }
 
     /**
      * Configure the MessageSource bean to use properties files as message sources
