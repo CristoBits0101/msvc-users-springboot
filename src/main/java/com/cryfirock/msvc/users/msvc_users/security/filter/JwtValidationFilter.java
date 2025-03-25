@@ -1,9 +1,4 @@
-package com.cryfirock.msvc.users.msvc_users.security.filters;
-
-/**
- * Dependencies
- */
-import static com.cryfirock.msvc.users.msvc_users.security.configurations.TokenJwtConfig.*;
+package com.cryfirock.msvc.users.msvc_users.security.filter;
 
 import com.cryfirock.msvc.users.msvc_users.security.jackson.SimpleGrantedAuthorityJsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +12,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import static com.cryfirock.msvc.users.msvc_users.security.config.TokenJwtConfig.*;
 
 import java.util.Arrays;
 import java.util.Collection;

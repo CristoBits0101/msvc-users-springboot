@@ -1,4 +1,4 @@
-package com.cryfirock.msvc.users.msvc_users.security.filters;
+package com.cryfirock.msvc.users.msvc_users.security.filter;
 
 /**
  * Dependencies
@@ -18,7 +18,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import static com.cryfirock.msvc.users.msvc_users.security.configurations.TokenJwtConfig.*;
+import static com.cryfirock.msvc.users.msvc_users.security.config.TokenJwtConfig.*;
 
 import java.io.IOException;
 import java.util.Collection;

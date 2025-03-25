@@ -1,4 +1,4 @@
-package com.cryfirock.msvc.users.msvc_users.security.configurations;
+package com.cryfirock.msvc.users.msvc_users.security.config;
 
 import javax.crypto.SecretKey;
 

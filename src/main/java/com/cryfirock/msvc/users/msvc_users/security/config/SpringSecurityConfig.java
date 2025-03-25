@@ -1,4 +1,4 @@
-package com.cryfirock.msvc.users.msvc_users.security.configurations;
+package com.cryfirock.msvc.users.msvc_users.security.config;
 
 import java.util.Arrays;
 
@@ -26,7 +26,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.cryfirock.msvc.users.msvc_users.security.filters.JwtAutheticationFilter;
+import com.cryfirock.msvc.users.msvc_users.security.filter.JwtAutheticationFilter;
 
 // Configuration class for application security
 @Configuration
