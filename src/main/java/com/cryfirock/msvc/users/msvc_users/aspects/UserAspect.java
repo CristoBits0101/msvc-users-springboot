@@ -40,7 +40,7 @@ public class UserAspect {
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
-        // Log method entry with parameters
+        // Log before execution of method with parameters
         logger.info("Before executing: " + method + " with arguments " + args);
     }
 
@@ -51,9 +51,11 @@ public class UserAspect {
      */
     @After("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
     public void loggerAfter(JoinPoint joinPoint) {
+        // Get method name and arguments
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
+        // Log after execution of method with parameters
         logger.info("After executing: " + method + " with arguments " + args);
     }
 
@@ -64,9 +66,11 @@ public class UserAspect {
      */
     @AfterReturning("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
     public void loggerAfterReturning(JoinPoint joinPoint) {
+        // Get method name and arguments
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
+        // Log after successful execution of method with parameters
         logger.info("After successful execution: " + method + " with arguments " + args);
     }
 
@@ -77,9 +81,11 @@ public class UserAspect {
      */
     @AfterThrowing("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
     public void loggerAfterThrowing(JoinPoint joinPoint) {
+        // Get method name and arguments
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
+        // Log after exception in method with parameters
         logger.error("After exception in: " + method + " with arguments " + args);
     }
 
@@ -92,11 +98,14 @@ public class UserAspect {
      */
     @Around("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
     public Object loggerAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        // Get method name and arguments
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
+        // Log method entry with parameters
         Object result = null;
 
+        // Execute the method and log the results and exceptions occurring
         try {
             logger.info("Entering method " + method + "() with parameters " + args);
             result = joinPoint.proceed();
