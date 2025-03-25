@@ -28,8 +28,14 @@ import java.util.Date;
 @Component("userOperationsInterceptor")
 public class UserOperationsInterceptor implements HandlerInterceptor {
 
+    /**
+     * Attributes
+     */
     private static final Logger logger = LoggerFactory.getLogger(UserOperationsInterceptor.class);
 
+    /**
+     * 
+     */
     @Override
     public boolean preHandle(
             @NonNull HttpServletRequest request,
