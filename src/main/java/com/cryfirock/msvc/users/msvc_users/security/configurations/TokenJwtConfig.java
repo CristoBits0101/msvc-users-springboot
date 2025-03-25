@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import io.jsonwebtoken.Jwts;
 
+// It is used to reuse properties
 @Configuration
 public class TokenJwtConfig {
 
