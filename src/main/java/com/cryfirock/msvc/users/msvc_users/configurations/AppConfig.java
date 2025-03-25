@@ -1,4 +1,4 @@
-package com.cryfirock.msvc.users.msvc_users.config;
+package com.cryfirock.msvc.users.msvc_users.configurations;
 
 /**
  * Dependencies
