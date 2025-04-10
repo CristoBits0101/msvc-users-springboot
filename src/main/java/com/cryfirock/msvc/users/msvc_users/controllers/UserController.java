@@ -45,7 +45,7 @@ public class UserController {
     /**
      * Allows you to create a new user
      * 
-     * @param user   the new user
+     * @param user the new user
      * @param result of the validation
      * @return ResponseEntity with validation errors or 201 and the created user
      */
